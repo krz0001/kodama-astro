@@ -7,17 +7,29 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "deploy": "sanity deploy",
+    "deploy-graphql": "sanity graphql deploy"
   },
   "dependencies": {
     "@astrojs/react": "^3.1.0",
     "@sanity/astro": "^3.0.0",
     "@sanity/client": "^6.15.5",
+    "@sanity/vision": "^3.34.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "astro": "^4.5.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "sanity": "^3.34.0"
+    "sanity": "^3.34.0",
+    "react-is": "^18.2.0",
+    "styled-components": "^6.0.7"
+  },
+  "devDependencies": {
+    "@sanity/eslint-config-studio": "^3.0.1",
+    "@types/react": "^18.0.25",
+    "eslint": "^8.6.0",
+    "prettier": "^3.0.2",
+    "typescript": "^5.1.6"
   }
 }

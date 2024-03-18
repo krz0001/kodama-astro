@@ -1,16 +1,18 @@
-// ./sanity.config.ts
-import { defineConfig } from "sanity";
-import { deskTool } from "sanity/desk";
-const { PUBLIC_SANITY_STUDIO_PROJECT_ID, PUBLIC_SANITY_STUDIO_DATASET, } = loadEnv(import.meta.env.MODE, process.cwd(), "");
-
+import {defineConfig} from 'sanity'
+import {structureTool} from 'sanity/structure'
+import {visionTool} from '@sanity/vision'
+import {schemaTypes} from './schemaTypes'
 
 export default defineConfig({
-  name: "kodama",
-  title: "KodamaSoft/Sounds",
-  projectId: PUBLIC_SANITY_STUDIO_PROJECT_ID,
-  dataset: PUBLIC_SANITY_STUDIO_DATASET,
-  plugins: [deskTool()],
+  name: 'default',
+  title: 'kodama',
+
+  projectId: '4b15qvbk',
+  dataset: 'production',
+
+  plugins: [structureTool(), visionTool()],
+
   schema: {
-    types: [],
+    types: schemaTypes,
   },
-});
+})
