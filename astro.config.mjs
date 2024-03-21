@@ -1,4 +1,4 @@
-import { defineConfig } from 'astro/config'
+import { defineConfig } from 'astro/config';
 import { loadEnv } from "vite";
 const {
   PUBLIC_SANITY_STUDIO_PROJECT_ID,
@@ -6,9 +6,10 @@ const {
 } = loadEnv(import.meta.env.MODE, process.cwd(), "");
 import sanity from "@sanity/astro";
 import react from "@astrojs/react";
-
+import netlify from "@astrojs/netlify";
 const projectId = PUBLIC_SANITY_STUDIO_PROJECT_ID;
 const dataset = PUBLIC_SANITY_STUDIO_DATASET;
+
 
 // https://astro.build/config
 export default defineConfig({
@@ -23,6 +24,7 @@ export default defineConfig({
   }), react() // Required for Sanity Studio
   ],
   redirects: {
-    "/admin/[...path]" : "/admin"
-  }
+    "/admin/[...path]": "/admin"
+  },
+  adapter: netlify()
 });
