@@ -12,6 +12,7 @@ const dataset = PUBLIC_SANITY_STUDIO_DATASET;
 
 // https://astro.build/config
 export default defineConfig({
+  output: "hybrid",
   integrations: [sanity({
     projectId: projectId,
     dataset: dataset,
