@@ -1,24 +1,29 @@
 ---
-import { Debug } from 'astro:components';
-import { sanityClient } from "sanity:client";
-import {urlForImage} from "../../utils/image";
+import { Debug } from "astro:components";
+import { getRelease, getReleases } from "../../utils/sanity";
+import { urlForImage } from "../../utils/index";
 
 export async function getStaticPaths() {
-  const releases = await sanityClient.fetch(`*[_type == "release"]`);
-  console.log(releases);
-  
+  const releases = await getReleases();
   return releases.map((release) => ({
     params: { slug: release.slug.current },
-    props: { release },
   }));
 }
-const { release }: {release : any} = Astro.props;
+
+const { slug } = Astro.params;
+const release = await getRelease(slug);
+
 ---
+
 <div>
   <h1>{release.title}</h1>
-  <img src={release.logo.asset.url} alt={release.title} />
+  <img src={urlForImage(release.logo).url()} alt={release.title} />
 
-  <p>Release Date: {release.releaseDate + " " + release.releaseDateAddendum ?? ""}</p>
+  <p>
+    Release Date: {
+      release.releaseDate + " " + release.releaseDateAddendum ?? ""
+    }
+  </p>
   <p
     style={{
       backgroundColor: "#" + release.color,
@@ -26,9 +31,9 @@ const { release }: {release : any} = Astro.props;
       padding: "0.5rem",
       borderRadius: "0.25rem",
     }}
-  >Color: {release.color}</p>
-
+  >
+    Color: {release.color}
+  </p>
 </div>
 
-<Debug {release}></Debug>
-
+<Debug {release} />

@@ -12,14 +12,17 @@
     "deploy-graphql": "sanity graphql deploy"
   },
   "dependencies": {
+    "@astrojs/check": "^0.5.9",
     "@astrojs/react": "^3.1.0",
     "@sanity/astro": "^3.0.0",
     "@sanity/client": "^6.15.5",
+    "@sanity/image-url": "^1.0.2",
     "@sanity/vision": "^3.34.0",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "astro": "^4.5.5",
     "groq": "^3.35.2",
+    "prettier-plugin-astro": "^0.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-is": "^18.2.0",
