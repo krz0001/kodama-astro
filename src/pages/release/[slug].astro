@@ -1,0 +1,34 @@
+---
+import { Debug } from 'astro:components';
+import { sanityClient } from "sanity:client";
+import {urlForImage} from "../../utils/image";
+
+export async function getStaticPaths() {
+  const releases = await sanityClient.fetch(`*[_type == "release"]`);
+  console.log(releases);
+  
+  return releases.map((release) => ({
+    params: { slug: release.slug.current },
+    props: { release },
+  }));
+}
+const { release }: {release : any} = Astro.props;
+---
+<div>
+  <h1>{release.title}</h1>
+  <img src={release.logo.asset.url} alt={release.title} />
+
+  <p>Release Date: {release.releaseDate + " " + release.releaseDateAddendum ?? ""}</p>
+  <p
+    style={{
+      backgroundColor: "#" + release.color,
+      color: "white",
+      padding: "0.5rem",
+      borderRadius: "0.25rem",
+    }}
+  >Color: {release.color}</p>
+
+</div>
+
+<Debug {release}></Debug>
+
