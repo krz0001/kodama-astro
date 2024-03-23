@@ -1,7 +1,11 @@
 ---
 import { Debug } from "astro:components";
 import { getRelease, getReleases } from "../../utils/sanity";
-import { urlForImage } from "../../utils/index";
+import { urlForImage } from "@utils/index";
+import ReleaseLayout from "../../layouts/ReleaseLayout.astro";
+
+import ReleaseNav from "@components/release/ReleaseNav.astro";
+import ReleaseDescription from "@components/release/ReleaseDescription.astro";
 
 export async function getStaticPaths() {
   const releases = await getReleases();
@@ -12,28 +16,80 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const release = await getRelease(slug);
-
 ---
 
-<div>
-  <h1>{release.title}</h1>
-  <img src={urlForImage(release.logo).url()} alt={release.title} />
-
-  <p>
-    Release Date: {
-      release.releaseDate + " " + release.releaseDateAddendum ?? ""
+<ReleaseLayout releaseTitle={release.title}>
+  <div class={release.background ? "mx-auto" : "container mx-auto"}>
+    {
+      release.background ? (
+        <div class="relative overflow-hidden">
+          <img
+            src={release.background}
+            alt="Background"
+            style={{ objectFit: "cover", filter: "blur(25px) brightness(0.5)" }}
+          />
+          <div class="md:container relative mx-auto z-10">
+            <ReleaseNav class="bg-[#232426] md:bg-transparent" />
+            <div class="relative w-[800px] max-w-full mx-auto">
+              <img
+                src={urlForImage(release.logo).url()}
+                height="340"
+                width="1000"
+                alt="Logo"
+                class="object-cover object-center p-6 md:relative -top-14"
+                style={{
+                  filter: "drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.75))",
+                }}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        
+          <ReleaseNav />
+          <div class="relative w-[800px] max-w-full mx-auto">
+            <img
+              src={urlForImage(release.logo).url()}
+              height="340"
+              width="1000"
+              alt="Logo"
+              style="object-fit: cover; object-position: center;"
+            />
+          </div>
+        
+      )
     }
-  </p>
-  <p
-    style={{
-      backgroundColor: "#" + release.color,
-      color: "white",
-      padding: "0.5rem",
-      borderRadius: "0.25rem",
-    }}
-  >
-    Color: {release.color}
-  </p>
-</div>
+  </div>
 
-<Debug {release} />
+  <div class="container mx-auto">
+    <div class="my-16">
+      <p class="text-center text-sm my-4">
+        {release.description}
+      </p>
+    </div>
+
+    <div>
+      <iframe
+        width="100%"
+        height="166"
+        scrolling="no"
+        frameBorder="no"
+        allow="autoplay"
+        src={"https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/" + release.soundcloudTrackId + "&color=%23" + release.color + "&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"}
+      ></iframe>
+    </div>
+  </div>
+
+  <ReleaseDescription
+    cover={release.cover}
+    title={release.title}
+    description={release.description}
+    releaseDate={release.releaseDate + (release.releaseDateAddendum ? " " + release.releaseDateAddendum : "")}
+    soundcloudTrackId={release.soundcloudTrackId}
+    color={release.color}
+    logo={release.logo}
+    background={release.background}
+  />
+
+  <Debug {release} />
+</ReleaseLayout>

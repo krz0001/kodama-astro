@@ -1,0 +1,96 @@
+---
+import { urlForImage } from "@utils/index";
+
+const { cover, title, circle, specification, releaseDate, catalog, price, store } = Astro.props;
+---
+
+<div class='container mx-auto my-16 flex flex-col md:flex-row'>
+    <div class='relative max-w-xs lg:max-w-3xl mx-auto mb-4'>
+        <img src={urlForImage(cover)} class="rounded" height="768" width="768" alt='Logo'/>
+    </div>
+
+    <dl class="description">
+        <dt><span>{('title')}</span></dt>
+        <dd>{title}</dd>
+
+        <dt><span>{('circle')}</span></dt>
+        <dd>
+            <!-- <a href={circle.link}>
+                {circle.name}
+            </a> -->
+        </dd>
+
+        <dt><span>{('specification')}</span></dt>
+        <dd>{specification}</dd>
+
+        <dt><span>{('release_date')}</span></dt>
+        <dd>{releaseDate}</dd>
+        
+        <dt><span>{('catalog')}</span></dt>
+        <dd>{catalog}</dd>
+
+        <dt><span>{('price')}</span></dt>
+        <dd>{price}</dd>
+        
+        <dt><span>{('store')}</span></dt>
+        {/* parse store object with name and link and put them into Link elements */}
+        <dd><ul>
+            <!-- {Object.entries(store).map(storeItem => {
+                return storeItem;
+                return (
+                    <li>
+                        <a href={storeItem[1].link}>
+                            {storeItem[1].name}
+                        </a>
+                    </li>
+            )})} -->
+        </ul></dd>
+    </dl>
+</div>
+
+<style>
+    .description {
+        @apply flex-grow px-4;
+
+        & > dt {
+            @apply relative mb-2;
+        }
+        
+        & > dt > span {
+            @apply relative bg-[#232426] inline-block pr-4 z-10 uppercase;
+        }
+        
+        & > dt::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 0;
+            z-index: 1;
+            width: 100%;
+            background-color: #666;
+            height: 1px;
+            display: block;
+        }
+
+        & > dd {
+            @apply relative mb-8;
+        }
+
+        & ul {
+            @apply block list-disc mb-4 pl-10;
+        }
+
+        & li {
+            @apply list-item;
+        }
+
+        & a {
+            color: var(--release-color);
+        }
+
+        & a:hover, 
+        & a:focus {
+            @apply underline underline-offset-1;
+        }
+    }
+</style>
