@@ -1,0 +1,23 @@
+---
+import { Debug } from "astro:components";
+import { getRelease, getReleases } from "@utils/sanity";
+import { urlForImage } from "@utils/index";
+
+const releases = await getReleases();
+---
+
+<ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
+    {releases.map((release) => (
+        <li>
+            <a href={`./releases/${release.slug.current}`} class="flex flex-row mb-4 items-center">
+                <img src={urlForImage(release.cover).url()} alt={release.title} class="mr-3 h-16 w-16 object-cover rounded-lg" />
+                <h2>{release.title}</h2>
+            </a>
+        </li>
+    ))}
+</ul>
+
+<Debug value={{ releases }} />
+
+
+

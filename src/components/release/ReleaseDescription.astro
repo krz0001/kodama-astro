@@ -1,6 +1,6 @@
 ---
 import { urlForImage } from "@utils/index";
-
+import { t } from "i18n:astro";
 const { cover, title, circle, specification, releaseDate, catalog, price, store } = Astro.props;
 ---
 
@@ -10,29 +10,29 @@ const { cover, title, circle, specification, releaseDate, catalog, price, store 
     </div>
 
     <dl class="description">
-        <dt><span>{('title')}</span></dt>
+        <dt><span>{t('releases:title')}</span></dt>
         <dd>{title}</dd>
 
-        <dt><span>{('circle')}</span></dt>
+        <dt><span>{t('releases:circle')}</span></dt>
         <dd>
             <!-- <a href={circle.link}>
                 {circle.name}
             </a> -->
         </dd>
 
-        <dt><span>{('specification')}</span></dt>
+        <dt><span>{t('releases:specification')}</span></dt>
         <dd>{specification}</dd>
 
-        <dt><span>{('release_date')}</span></dt>
+        <dt><span>{t('releases:release_date')}</span></dt>
         <dd>{releaseDate}</dd>
         
-        <dt><span>{('catalog')}</span></dt>
+        <dt><span>{t('releases:catalog')}</span></dt>
         <dd>{catalog}</dd>
 
-        <dt><span>{('price')}</span></dt>
+        <dt><span>{t('releases:price')}</span></dt>
         <dd>{price}</dd>
         
-        <dt><span>{('store')}</span></dt>
+        <dt><span>{t('releases:store')}</span></dt>
         {/* parse store object with name and link and put them into Link elements */}
         <dd><ul>
             <!-- {Object.entries(store).map(storeItem => {
