@@ -159,9 +159,9 @@ export default defineType({
                     type: "object",
                     name: "track",
                     fields: [
-                        { type: "string", name: "titleEn" },
-                        { type: "string", name: "artist", description: "WILL BE TRANSFORMED INTO A REFERENCE FIELD TO EASILY REFERENCE ARTISTS" },
-                        { type: "blockContent", name: "description", description: "WILL BE INTERNATIONALIZED" }
+                        { type: "internationalizedArrayString", name: "title", title: "Title" },
+                        { type: "string", name: "artist", title: "Artist(s)" },
+                        { type: "internationalizedArrayBlockContent", name: "description", title: "Description" },
                     ],
                     preview: {
                         select: {
