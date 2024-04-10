@@ -16,7 +16,11 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const release = await getRelease(slug);
+const releaseColorStyle = `:root {
+    --releaseColor: ${"#"+release.color};
+}`;
 ---
+<style set:html={releaseColorStyle}></style>
 
 <ReleaseLayout releaseTitle={release.title}>
   <div class={release.background ? "mx-auto" : "container mx-auto"}>
@@ -83,13 +87,39 @@ const release = await getRelease(slug);
   <ReleaseDescription
     cover={release.cover}
     title={release.title}
+    circleName={release.circleName}
+    circleUrl={release.circleUrl}
+    specification={release.specification}
     description={release.description}
     releaseDate={release.releaseDate + (release.releaseDateAddendum ? " " + release.releaseDateAddendum : "")}
+    catalogNumber={release.catalogNumber}
+    price={release.price}
+    links={release.links}
+
     soundcloudTrackId={release.soundcloudTrackId}
     color={release.color}
     logo={release.logo}
     background={release.background}
   />
 
+  <div class="max-w-3xl mx-auto mt-16">
+    {release.tracklist.map(track => (
+      <div key={track._key} class="mb-8">
+        <h2 class="text-2xl">{track.title[0].value}</h2>
+        <h3 class="text-lg">Artist: {track.artist}</h3>
+        <p>Description:</p>
+        {track.description[0].value.map(desc => (
+          <p key={desc._key}>{desc.children[0].text}</p>
+        ))}
+      </div>
+    ))}
+  </div>
+
+  
+  
+<details class="container mx-auto mt-16">
+  <summary>Debug</summary>
   <Debug {release} />
+</details>
 </ReleaseLayout>
+

@@ -27,7 +27,7 @@ export default defineConfig({
     , tailwind(), liciousI18n({
       defaultLocale: "en",
       locales: ["en", "jp"],
-      strategy: "prefix",
+      strategy: "prefixExceptDefault",
       client: {
         data: true,
       }

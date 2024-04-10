@@ -76,9 +76,21 @@ export default defineType({
         }),
 
         // catalog number
-        // price
-        // links
+        defineField({
+            name: 'catalogNumber',
+            title: 'Catalog Number',
+            type: 'string',
+            group: 'metadata',
+        }),
 
+        // price
+        defineField({
+            name: 'price',
+            title: 'Price',
+            type: 'text',
+            rows: 3,
+            group: 'metadata',
+        }),
 
         defineField({
             name: 'color',
@@ -165,16 +177,17 @@ export default defineType({
                     ],
                     preview: {
                         select: {
-                            title: 'titleEn',
+                            title: 'title',
                             artist: 'artist'
                         },
                         prepare(selection) {
                             const { title, artist } = selection
                             // generate a unique hue (an int from 0 to 360) based on the title
-                            const color = Math.abs(title.split('').reduce((acc, char) => char.charCodeAt(0) + acc, 0)) % 360
-
+                            const color = Math.abs(title[0].value.split('').reduce((acc, char) => char.charCodeAt(0) + acc, 0)) % 360
+                            console.log(title, title[0].value)
+                            
                             return {
-                                title: title,
+                                title: title[0].value,
                                 subtitle: artist,
                                 media: <div style={{ backgroundColor: `hsl(${color}, 50%, 50%)`, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <span style={{ filter: 'brightness(0)' }}>🎵</span>
@@ -200,6 +213,7 @@ export default defineType({
     preview: {
         select: {
             title: 'title',
+            subtitle: 'catalogNumber',
             media: 'cover'
         }
     },
