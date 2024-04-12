@@ -17,6 +17,8 @@
     "@astrojs/react": "^3.1.0",
     "@astrojs/tailwind": "^5.1.0",
     "@astrolicious/i18n": "^0.1.2",
+    "@fontsource/noto-sans-jp": "^5.0.18",
+    "@portabletext/to-html": "^2.0.13",
     "@sanity/astro": "^3.0.0",
     "@sanity/client": "^6.15.5",
     "@sanity/image-url": "^1.0.2",

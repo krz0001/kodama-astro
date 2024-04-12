@@ -1,11 +1,20 @@
 ---
+import '@fontsource/noto-sans-jp/400.css';
+import '@fontsource/noto-sans-jp/900.css';
+
 import { Debug } from "astro:components";
 import { getRelease, getReleases } from "@utils/sanity";
 import { urlForImage } from "@utils/index";
+import {toHTML} from '@portabletext/to-html'
+
 import ReleaseLayout from "../../layouts/ReleaseLayout.astro";
 
 import ReleaseNav from "@components/release/ReleaseNav.astro";
 import ReleaseDescription from "@components/release/ReleaseDescription.astro";
+import ReleaseCallToAction from "@components/release/ReleaseCallToAction.astro";
+import { getLocale } from "i18n:astro"
+
+
 
 export async function getStaticPaths() {
   const releases = await getReleases();
@@ -16,12 +25,17 @@ export async function getStaticPaths() {
 
 const { slug } = Astro.params;
 const release = await getRelease(slug);
+
+// STUFF THAT NEEDS TO BE HTML'D
 const releaseColorStyle = `:root {
     --releaseColor: ${"#"+release.color};
 }`;
+
+// get the release.description where "_key" is the current locale, or default to English 
+const releaseDescription = toHTML((release.description.find(desc => desc._key === getLocale()) || release.description.find(desc => desc._key === "en")).value)
+console.log(Astro.currentLocale)
 ---
 <style set:html={releaseColorStyle}></style>
-
 <ReleaseLayout releaseTitle={release.title}>
   <div class={release.background ? "mx-auto" : "container mx-auto"}>
     {
@@ -67,9 +81,7 @@ const releaseColorStyle = `:root {
 
   <div class="container mx-auto">
     <div class="my-16">
-      <p class="text-center text-sm my-4">
-        {release.description}
-      </p>
+      <div class="text-center text-sm my-4" set:html={releaseDescription} /> 
     </div>
 
     <div>
@@ -100,6 +112,10 @@ const releaseColorStyle = `:root {
     color={release.color}
     logo={release.logo}
     background={release.background}
+  />
+
+  <ReleaseCallToAction
+    links={release.links}
   />
 
   <div class="max-w-3xl mx-auto mt-16">

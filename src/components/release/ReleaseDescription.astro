@@ -1,7 +1,8 @@
 ---
+import { getWebsiteName, isWebsiteStore } from "@utils/index.js";
 import { urlForImage } from "@utils/index";
 import { t } from "i18n:astro";
-const { cover, title, circleName, circleUrl, specification, releaseDate, catalogNumber, price, links } = Astro.props;
+const { description, cover, title, circleName, circleUrl, specification, releaseDate, catalogNumber, price, links } = Astro.props;
 ---
 
 <div class='container mx-auto my-16 grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -34,12 +35,14 @@ const { cover, title, circleName, circleUrl, specification, releaseDate, catalog
         {/* parse store object with name and link and put them into Link elements */}
         <dd><ul>
             {Object.entries(links).map(storeItem => {
-                console.log(storeItem)
+                // if website is not a store, skip it
+                if (!isWebsiteStore(storeItem[1])) return;
+                
                 return (
                     // ['id', 'link']
                     <li>
                         <a href={storeItem[1]}>
-                            {storeItem[1]}
+                            {getWebsiteName(storeItem[1])}
                         </a>
                     </li>
             )})}
@@ -56,7 +59,7 @@ const { cover, title, circleName, circleUrl, specification, releaseDate, catalog
         }
         
         & > dt > span {
-            @apply relative bg-[#232426] inline-block pr-4 z-10 uppercase;
+            @apply relative bg-[#232426] inline-block pr-4 z-10 uppercase font-semibold;
         }
         
         & > dt::after {

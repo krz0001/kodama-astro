@@ -1,0 +1,39 @@
+---
+import { getWebsiteName, isWebsiteStore } from "@utils/index.js";
+import { t } from "i18n:astro";
+const { links } = Astro.props;
+---
+<section class="bg-[#333335] mt-16 py-8">
+    <h2 class="text-2xl text-center uppercase mb-6 font-black">
+        {t('releases:available_now')}
+    </h2>
+
+    <div class="text-center">
+        {Object.entries(links).map((storeItem) => {
+            if (!isWebsiteStore(storeItem[1])) return null;
+            
+            return (
+                <a
+                    key={storeItem[1]}
+                    href={storeItem[1]}
+                    class={"button"}
+                >
+                    {getWebsiteName(storeItem[1])}
+                </a>
+            )
+        })}
+    </div>
+</section>
+
+<style>
+    .button {
+        @apply inline-block text-center text-lg	rounded border-2 py-3 px-8 m-1 transition;
+        color: var(--releaseColor);
+        border-color: var(--releaseColor);
+
+        &:hover {
+            @apply text-white;
+            background-color: var(--releaseColor);
+        }
+    }
+</style>

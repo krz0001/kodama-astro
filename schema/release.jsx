@@ -39,6 +39,13 @@ export default defineType({
         }),
 
         defineField({
+            name: 'description',
+            title: 'Description',
+            type: 'internationalizedArrayBlockContent',
+            group: 'metadata',
+        }),
+
+        defineField({
             name: 'circleName',
             title: 'Circle Name',
             type: 'string',
