@@ -64,6 +64,7 @@ export default defineType({
             title: 'Specification',
             type: 'string',
             list: ['Original Work', 'Cover Album', 'Remix Album', 'Collaboration Album', 'Compilation Album', 'Single'],
+            group: 'metadata',
         }),
 
         defineField({
@@ -179,7 +180,7 @@ export default defineType({
                     name: "track",
                     fields: [
                         { type: "internationalizedArrayString", name: "title", title: "Title" },
-                        { type: "string", name: "artist", title: "Artist(s)" },
+                        { type: "internationalizedArrayString", name: "artist", title: "Artist(s)" },
                         { type: "internationalizedArrayBlockContent", name: "description", title: "Description" },
                     ],
                     preview: {
@@ -195,7 +196,7 @@ export default defineType({
                             
                             return {
                                 title: title[0].value,
-                                subtitle: artist,
+                                subtitle: artist[0].value,
                                 media: <div style={{ backgroundColor: `hsl(${color}, 50%, 50%)`, width: '100%', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                                     <span style={{ filter: 'brightness(0)' }}>🎵</span>
                                 </div>

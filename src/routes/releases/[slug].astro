@@ -1,20 +1,20 @@
 ---
-import '@fontsource/noto-sans-jp/400.css';
-import '@fontsource/noto-sans-jp/900.css';
+import "@fontsource/noto-sans-jp/400.css";
+import "@fontsource/noto-sans-jp/900.css";
 
 import { Debug } from "astro:components";
 import { getRelease, getReleases } from "@utils/sanity";
 import { urlForImage } from "@utils/index";
-import {toHTML} from '@portabletext/to-html'
+import { toHTML } from "@portabletext/to-html";
 
 import ReleaseLayout from "../../layouts/ReleaseLayout.astro";
 
 import ReleaseNav from "@components/release/ReleaseNav.astro";
 import ReleaseDescription from "@components/release/ReleaseDescription.astro";
 import ReleaseCallToAction from "@components/release/ReleaseCallToAction.astro";
-import { getLocale } from "i18n:astro"
+import ReleaseTracklist from "@components/release/ReleaseTracklist.astro";
 
-
+import { getLocale } from "i18n:astro";
 
 export async function getStaticPaths() {
   const releases = await getReleases();
@@ -28,13 +28,18 @@ const release = await getRelease(slug);
 
 // STUFF THAT NEEDS TO BE HTML'D
 const releaseColorStyle = `:root {
-    --releaseColor: ${"#"+release.color};
+    --releaseColor: ${"#" + release.color};
 }`;
 
-// get the release.description where "_key" is the current locale, or default to English 
-const releaseDescription = toHTML((release.description.find(desc => desc._key === getLocale()) || release.description.find(desc => desc._key === "en")).value)
-console.log(Astro.currentLocale)
+// get the release.description where "_key" is the current locale, or default to English
+const releaseDescription = toHTML(
+  (
+    release.description.find((desc) => desc._key === getLocale()) ||
+    release.description.find((desc) => desc._key === "en")
+  ).value
+);
 ---
+
 <style set:html={releaseColorStyle}></style>
 <ReleaseLayout releaseTitle={release.title}>
   <div class={release.background ? "mx-auto" : "container mx-auto"}>
@@ -63,7 +68,7 @@ console.log(Astro.currentLocale)
           </div>
         </div>
       ) : (
-        
+        <>
           <ReleaseNav />
           <div class="relative w-[800px] max-w-full mx-auto">
             <img
@@ -74,14 +79,14 @@ console.log(Astro.currentLocale)
               style="object-fit: cover; object-position: center;"
             />
           </div>
-        
+        </>
       )
     }
   </div>
 
   <div class="container mx-auto">
     <div class="my-16">
-      <div class="text-center text-sm my-4" set:html={releaseDescription} /> 
+      <div class="text-center text-sm my-4" set:html={releaseDescription} />
     </div>
 
     <div>
@@ -91,7 +96,11 @@ console.log(Astro.currentLocale)
         scrolling="no"
         frameBorder="no"
         allow="autoplay"
-        src={"https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/" + release.soundcloudTrackId + "&color=%23" + release.color + "&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"}
+        src={"https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/" +
+          release.soundcloudTrackId +
+          "&color=%23" +
+          release.color +
+          "&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"}
       ></iframe>
     </div>
   </div>
@@ -103,39 +112,23 @@ console.log(Astro.currentLocale)
     circleUrl={release.circleUrl}
     specification={release.specification}
     description={release.description}
-    releaseDate={release.releaseDate + (release.releaseDateAddendum ? " " + release.releaseDateAddendum : "")}
+    releaseDate={release.releaseDate +
+      (release.releaseDateAddendum ? " " + release.releaseDateAddendum : "")}
     catalogNumber={release.catalogNumber}
     price={release.price}
     links={release.links}
-
     soundcloudTrackId={release.soundcloudTrackId}
     color={release.color}
     logo={release.logo}
     background={release.background}
   />
 
-  <ReleaseCallToAction
-    links={release.links}
-  />
+  <ReleaseCallToAction links={release.links} />
 
-  <div class="max-w-3xl mx-auto mt-16">
-    {release.tracklist.map(track => (
-      <div key={track._key} class="mb-8">
-        <h2 class="text-2xl">{track.title[0].value}</h2>
-        <h3 class="text-lg">Artist: {track.artist}</h3>
-        <p>Description:</p>
-        {track.description[0].value.map(desc => (
-          <p key={desc._key}>{desc.children[0].text}</p>
-        ))}
-      </div>
-    ))}
-  </div>
+  <ReleaseTracklist tracklist={release.tracklist} />
 
-  
-  
-<details class="container mx-auto mt-16">
-  <summary>Debug</summary>
-  <Debug {release} />
-</details>
+  <details class="container mx-auto mt-16">
+    <summary>Debug</summary>
+    <Debug {release} />
+  </details>
 </ReleaseLayout>
-
