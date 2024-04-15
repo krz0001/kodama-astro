@@ -2,97 +2,127 @@
 import { getWebsiteName, isWebsiteStore } from "@utils/index.js";
 import { urlForImage } from "@utils/index";
 import { t } from "i18n:astro";
-const { description, cover, title, circleName, circleUrl, specification, releaseDate, catalogNumber, price, links } = Astro.props;
+const {
+  cover,
+  title,
+  circleName,
+  circleUrl,
+  specification,
+  releaseDate,
+  catalogNumber,
+  price,
+  links,
+} = Astro.props;
 ---
 
-<div class='container mx-auto my-16 grid grid-cols-1 md:grid-cols-2 gap-4'>
-    <img src={urlForImage(cover)} class="rounded" alt='Logo' class='w-100 h-auto md:w-1/2' />
+<div class="container mx-auto my-16 grid grid-cols-1 md:grid-cols-2 gap-4">
+  {
+    cover ? (
+      <img
+        src={urlForImage(cover)}
+        class="rounded"
+        alt="Logo"
+        class="w-100 h-auto md:w-1/2"
+      />
+    ) : (
+      <div class="w-100 h-100 aspect-square bg-[var(--releaseColor)]"></div>
+    )
+  }
 
-    <dl class="description" class='w-full md:w-1/2'>
-        <dt><span>{t('releases:title')}</span></dt>
-        <dd>{title}</dd>
+  <dl class="description" class="w-full md:w-1/2">
+    <dt><span>{t("releases:title")}</span></dt>
+    <dd>{title || "■■■■■■■■■■"}</dd>
 
-        <dt><span>{t('releases:circle')}</span></dt>
+    <dt><span>{t("releases:circle")}</span></dt>
+    <dd>
+      {
+        circleUrl && circleName ? (
+          <a href={circleUrl}>{circleName}</a>
+        ) : (
+          circleName || "■■■■■■■■■■"
+        )
+      }
+    </dd>
+
+    <dt><span>{t("releases:specification")}</span></dt>
+    <dd>{specification || "■■■■■■■■■■"}</dd>
+
+    <dt><span>{t("releases:release_date")}</span></dt>
+    <dd>{releaseDate || "■■■■■■■■■■"}</dd>
+
+    <dt><span>{t("releases:catalog")}</span></dt>
+    <dd>{catalogNumber || "■■■■■■■■■■"}</dd>
+
+    <dt><span>{t("releases:price")}</span></dt>
+    <dd>{price || "■■■■■■■■■■"}</dd>
+
+    <dt><span>{t("releases:store")}</span></dt>
+    {
+      /* parse store object with name and link and put them into Link elements */
+      links && (
         <dd>
-            <a href={circleUrl}>
-                {circleName}
-            </a>
+          <ul>
+            {Object.entries(links).map((storeItem) => {
+              // if website is not a store, skip it
+              if (!isWebsiteStore(storeItem[1])) return;
+
+              return (
+                // ['id', 'link']
+                <li>
+                  <a href={storeItem[1]}>{getWebsiteName(storeItem[1])}</a>
+                </li>
+              );
+            })}
+          </ul>
         </dd>
-
-        <dt><span>{t('releases:specification')}</span></dt>
-        <dd>{specification}</dd>
-
-        <dt><span>{t('releases:release_date')}</span></dt>
-        <dd>{releaseDate}</dd>
-        
-        <dt><span>{t('releases:catalog')}</span></dt>
-        <dd>{catalogNumber}</dd>
-
-        <dt><span>{t('releases:price')}</span></dt>
-        <dd>{price}</dd>
-        
-        <dt><span>{t('releases:store')}</span></dt>
-        {/* parse store object with name and link and put them into Link elements */}
-        <dd><ul>
-            {Object.entries(links).map(storeItem => {
-                // if website is not a store, skip it
-                if (!isWebsiteStore(storeItem[1])) return;
-                
-                return (
-                    // ['id', 'link']
-                    <li>
-                        <a href={storeItem[1]}>
-                            {getWebsiteName(storeItem[1])}
-                        </a>
-                    </li>
-            )})}
-        </ul></dd>
-    </dl>
+      )
+    }
+  </dl>
 </div>
 
 <style>
-    .description {
-        @apply flex-grow px-4;
+  .description {
+    @apply flex-grow px-4;
 
-        & > dt {
-            @apply relative mb-2;
-        }
-        
-        & > dt > span {
-            @apply relative bg-[#232426] inline-block pr-4 z-10 uppercase font-semibold;
-        }
-        
-        & > dt::after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 0;
-            z-index: 1;
-            width: 100%;
-            background-color: #666;
-            height: 1px;
-            display: block;
-        }
-
-        & > dd {
-            @apply relative mb-8;
-        }
-
-        & ul {
-            @apply block list-disc mb-4 pl-10;
-        }
-
-        & li {
-            @apply list-item;
-        }
-
-        & a {
-            color: var(--releaseColor);
-        }
-
-        & a:hover, 
-        & a:focus {
-            @apply underline underline-offset-1;
-        }
+    & > dt {
+      @apply relative mb-2;
     }
+
+    & > dt > span {
+      @apply relative bg-[#232426] inline-block pr-4 z-10 uppercase font-semibold;
+    }
+
+    & > dt::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      background-color: #666;
+      height: 1px;
+      display: block;
+    }
+
+    & > dd {
+      @apply relative mb-8;
+    }
+
+    & ul {
+      @apply block list-disc mb-4 pl-10;
+    }
+
+    & li {
+      @apply list-item;
+    }
+
+    & a {
+      color: var(--releaseColor);
+    }
+
+    & a:hover,
+    & a:focus {
+      @apply underline underline-offset-1;
+    }
+  }
 </style>
