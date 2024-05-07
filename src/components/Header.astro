@@ -1,21 +1,23 @@
 ---
-import backgroundImg from '@assets/img/big_01_space_g.png';
-import logoImg from '@assets/img/logo_white.png'
+const links = [
+    { href: '#kodamasoft', text: 'KodamaSoft' },
+    { href: '/kodamasounds', text: 'KodamaSounds' },
+    { href: '#projects', text: 'Projects' },
+    { href: '#staff', text: 'Staff' },
+];
 
-console.log(backgroundImg)
-console.log(logoImg)
+
 ---
 
-<div class="text-white text-center">
-    <h1 class="text-7xl font-bold py-8 text-black dark:text-white bg-[url('/src/assets/img/big_01_space_g.png')] bg-cover bg-center">
+<div class="text-center bg-[url('/src/assets/img/big_01_space_g.png')] bg-cover bg-center">
+    <h1 class="text-7xl font-bold py-8 text-black dark:text-white">
         <a href="/" class="bg-[url('/src/assets/img/logo_white.png')] bg-contain bg-no-repeat bg-center h-full w-full min-h-48 block">
             <span class="sr-only">KodamaSoft</span>
         </a>
     </h1>
-    <nav class="flex justify-center space-x-4 bg-gray-200 dark:bg-gray-800 text-black dark:text-white p-4">
-        <a href="#kodamasoft">KodamaSoft</a>
-        <a href="/kodamasounds">KodamaSounds</a>
-        <a href="#projects">Projects</a>
-        <a href="#staff">Staff</a>
+    <nav class="flex flex-col sm:flex-row justify-center p-4 gap-4 items-center bg-purple-950/20 backdrop-blur text-white">
+        {links.map(({ href, text }) => (
+            <a href={href} class="text-gray-300 hover:bg-purple-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-2 border-transparent focus-visible:border-purple-600 focus-visible:outline-none transition">{text}</a>
+        ))}
     </nav>
 </div>
