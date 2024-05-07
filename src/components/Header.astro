@@ -1,7 +1,18 @@
-<div class="text-white text-center">
+---
+import backgroundImg from '@assets/img/big_01_space_g.png';
+import logoImg from '@assets/img/logo_white.png'
 
-    <h1 class="text-7xl font-bold my-8 text-black dark:text-white">KodamaSoft</h1>   
-    <nav class="flex justify-center space-x-4 mt-4 bg-gray-200 dark:bg-gray-800 text-black dark:text-white p-4">
+console.log(backgroundImg)
+console.log(logoImg)
+---
+
+<div class="text-white text-center">
+    <h1 class="text-7xl font-bold py-8 text-black dark:text-white bg-[url('/src/assets/img/big_01_space_g.png')] bg-cover bg-center">
+        <a href="/" class="bg-[url('/src/assets/img/logo_white.png')] bg-contain bg-no-repeat bg-center h-full w-full min-h-48 block">
+            <span class="sr-only">KodamaSoft</span>
+        </a>
+    </h1>
+    <nav class="flex justify-center space-x-4 bg-gray-200 dark:bg-gray-800 text-black dark:text-white p-4">
         <a href="#kodamasoft">KodamaSoft</a>
         <a href="/kodamasounds">KodamaSounds</a>
         <a href="#projects">Projects</a>
