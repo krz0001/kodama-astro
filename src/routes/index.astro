@@ -1,51 +1,7 @@
 ---
-import Layout from '../layouts/Layout.astro';
-import Card from '../components/Card.astro';
+import Layout from '@src/layouts/Layout.astro';
+
 ---
-
-<Layout title="🌱">
-	
-	<div class="emoji-container">
-		<a href="/admin" class="emoji">🌱</a>
-		<div class="text">Nothing to see here :)</div>
-	</div>
-
+<Layout title="KodamaSoft/Sounds">
+	<p>Welcome to KodamaSoft / KodamaSounds, home of a France based doujin circle founded around 2017 by Fivda! We are actively working on original / arrange albums of all kinds under KodamaSounds, and progressively building video games, tools and events relating to game development under KodamaSoft. We hope you enjoy your stay, and why not try to join our strong united community of artists on Discord to contribute yourself?!</p>
 </Layout>
-
-<style>
-	body {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		height: 100vh;
-		height: 100dvh;
-		margin: 0;
-	}
-
-	.emoji-container {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-	}
-
-	.emoji {
-		font-size: 5rem;
-		text-decoration: none;
-		animation: spin 2s linear infinite;
-	}
-
-	.emoji:hover {
-		animation-duration: 0.5s;
-	}
-
-	.text {
-		margin-top: 1rem;
-		font-size: 1.5rem;
-		color: greenyellow;
-	}
-
-	@keyframes spin {
-		0% { transform: rotate(0deg); }
-		100% { transform: rotate(360deg); }
-	}
-</style>

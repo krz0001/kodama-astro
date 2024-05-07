@@ -1,0 +1,38 @@
+---
+import Layout from '@src/layouts/Layout.astro';
+
+import { Debug } from "astro:components";
+import { getRelease, getReleases } from "@utils/sanity";
+import { urlForImage } from "@utils/index";
+
+const releases = await getReleases();
+---
+<Layout title="Releases">
+
+  <ul
+    class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4"
+  >
+    {
+      releases.map((release) => (
+        <li>
+          <a
+            href={`/releases/${release.slug.current}`}
+            class="flex flex-row mb-4 items-center border border-gray-800 hover:border-gray-300 p-2 rounded-lg"
+          >
+            <img
+              src={ release.cover ? urlForImage(release.cover).url() : 'https://via.placeholder.com/64' }
+              alt={release.title}
+              class="mr-3 h-16 w-16 object-cover rounded-lg"
+            />
+            <h2>{release.title || release.slug.current}</h2>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+
+  <details class="container mx-auto mt-16">
+    <summary>Debug</summary>
+    <Debug value={{ releases }} />
+  </details>
+</Layout>
