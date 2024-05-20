@@ -1,4 +1,11 @@
 {
+	"words": {
+		"by": "作曲者",
+		"written_by": "作詞者",
+		"readmore": "続きを読む",
+		"download": "ダウンロード",
+		"streaming": "ストリーミング"
+	},
 	"home": {
 		"title": "コダマソフト / コダマサウンズのオフィシャルサイトへようこそ。",
 		"content": {

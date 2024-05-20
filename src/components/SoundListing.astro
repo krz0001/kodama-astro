@@ -1,0 +1,120 @@
+---
+import { Icon } from "astro-icon/components";
+import { formatDate, urlForImage } from "@utils/index";
+import { t } from "i18n:astro";
+
+const { album } = Astro.props;
+---
+
+<div
+  class="not-prose group relative w-full md:max-w-2xl mx-auto content-center border-solid border border-violet-500/50 hover:border-violet-500 rounded-xl flex flex-col md:flex-row my-5 transition items-center"
+>
+  <div
+    class="relative h-52 w-52 my-5 mx-auto md:m-5 md:mr-0 aspect-square rounded-md shadow-lg transition overflow-clip flex-none"
+    style={{ backgroundColor: album.coverColor }}
+  >
+    <img
+      src={album.cover ? urlForImage(album.cover).url() : 'https://via.placeholder.com/208'}
+      alt={album.name}
+      sizes="13rem"
+      width={208}
+      height={208}
+    />
+  </div>
+
+  <div class="flex flex-col flex-initial py-5 px-10">
+    <div>
+      <span class="font-mono text-sm">
+        {album.id}
+        {album.releaseDate && formatDate(album.releaseDate)}
+      </span>
+      <h2 class="text-2xl font-semibold">{album.title || album.slug.current}</h2>
+    </div>
+
+    <div class="flex flex-wrap mt-4 gap-4">
+      <a href={`/kodamasounds/${album.slug.current}`} class="kodama_btn kodama_btn--primary">
+        <Icon name="globe" class="h-4 w-4 mr-2" />
+        Website
+      </a>
+
+      {
+        album.vgmdb ? (
+          <a href={album.vgmdb} class="kodama_btn kodama_btn--primary">
+            <Icon name="vgmdb" class="h-4 w-4 mr-2" />
+            VGMdb
+          </a>
+        ) : null
+      }
+
+      {
+        album.thbwiki ? (
+          <a href={album.thbwiki} class="kodama_btn kodama_btn--primary">
+            <Icon name="thbwiki" class="h-4 w-4 mr-2" />
+            THB WIKI
+          </a>
+        ) : null
+      }
+    </div>
+
+    <h3 class="text-lg font-semibold mt-4">{t("common:words.download")}</h3>
+    <div class="flex flex-wrap mt-2 gap-4">
+      <a href={album.bandcamp} class="kodama_btn kodama_btn--primary">
+        <Icon name="bandcamp" class="h-4 w-4 mr-2" />
+        Bandcamp
+      </a>
+
+      <a href={album.booth} class="kodama_btn kodama_btn--primary">
+        <Icon name="booth" class="h-4 w-4 mr-2" />
+        BOOTH
+      </a>
+    </div>
+
+    {
+      (album.appleMusic ||
+        album.spotify ||
+        album.deezer ||
+        album.youtubeMusic) && (
+        <h3 class="text-lg font-semibold mt-4">
+          {t("common:words.streaming")}
+        </h3>
+      )
+    }
+    <div class="flex flex-wrap mt-2 gap-4">
+      {
+        album.appleMusic ? (
+          <a href={album.appleMusic} class="kodama_btn kodama_btn--secondary">
+            <Icon name="applemusic" class="h-4 w-4 mr-2" />
+            Apple Music
+          </a>
+        ) : null
+      }
+
+      {
+        album.deezer ? (
+          <a href={album.deezer} class="kodama_btn kodama_btn--secondary">
+            <Icon name="deezer" class="h-4 w-4 mr-2" />
+            Deezer
+          </a>
+        ) : null
+      }
+
+      {
+        album.spotify ? (
+          <a href={album.spotify} class="kodama_btn kodama_btn--secondary">
+            <Icon name="spotify" class="h-4 w-4 mr-2" />
+            Spotify
+          </a>
+        ) : null
+      }
+
+      {
+        album.youtubeMusic ? (
+          <a href={album.youtubeMusic} class="kodama_btn kodama_btn--secondary">
+            <Icon name="youtubemusic" class="h-4 w-4 mr-2" />
+            YouTube Music
+          </a>
+        ) : null
+      }
+    </div>
+  </div>
+</div>
