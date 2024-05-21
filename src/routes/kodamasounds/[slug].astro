@@ -95,7 +95,7 @@ const releaseDescription = toHTML(
     {
       releaseDescription && (
         <div class="my-16">
-          <div class="text-center text-sm my-4" set:html={releaseDescription} />
+          <div class="text-center text-sm my-4 max-w-[100ch] mx-auto" set:html={releaseDescription} />
         </div>
       )
     }
@@ -138,6 +138,22 @@ const releaseDescription = toHTML(
   {release.links && <ReleaseCallToAction links={release.links} />}
 
   {release.tracklist && <ReleaseTracklist tracklist={release.tracklist} />}
+
+  <!-- YouTube -->
+  {release.youtubeVideoId && (
+    <section class="container mx-auto relative my-16">
+        <iframe
+          src={"https://www.youtube.com/embed/" + release.youtubeVideoId}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          class="w-full aspect-video max-w-[700px] mx-auto"
+        />
+    </section>
+  )}
+
+  <!-- credits table -->
+
+  <!-- footer credits -->
 
   <details class="container mx-auto mt-16">
     <summary>Debug</summary>

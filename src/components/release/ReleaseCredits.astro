@@ -1,0 +1,109 @@
+---
+import { Icon } from "astro-icon/components";
+import { formatDate, urlForImage } from "@utils/index";
+import { t } from "i18n:astro";
+
+function linkToIconName(link) {
+    if (link.toString().includes('bandcamp')) {
+        return "bandcamp"
+    } else if (
+        link.toString().includes('youtube') ||
+        link.toString().includes('youtu.be')
+    ) {
+        return "youtube"
+    } else if (link.toString().includes('twitter') || link.toString.includes('x.com')) {
+        return "twitter"
+    } else if (link.toString().includes('soundcloud')) {
+        return "soundcloud"
+    } else if (link.toString().includes('vgmdb')) {
+        return "vgmdb"
+    } else if (link.toString().includes('booth.pm')) {
+        return "booth"
+    } else if (link.toString().includes('pixiv')) {
+        return "pixiv"
+    } else if (link.toString().includes('fanbox.cc')) {
+        return "fanbox"
+    } else if (link.toString().includes('spotify')) {
+        return "spotify"
+    } else if (link.toString().includes('apple')) {
+        return "apple"
+    } else {
+        return "globe"
+    }
+}
+---
+
+		<section class="container mx-auto my-16">
+			<h2 class="text-2xl text-center uppercase mb-8 font-black">
+				credit
+			</h2>
+			<table class="table-auto w-full">
+				<thead class='hidden md:table-header-group'>
+					<tr>
+						<th class="px-4 py-2">Name</th>
+						<th class="px-4 py-2">Role</th>
+						<th class="px-4 py-2">Link</th>
+					</tr>
+				</thead>
+				<tbody class="grid grid-cols-1 sm:grid-cols-2 p-4 gap-4 md:table-row-group md:p-0 md:border-t border-[#666]">
+					{Object.entries(credits).map((creditJSON) => {
+						const tdClass = 'md:border-b border-[#666] md:p-4 md:pl-8'
+
+						let collaboratorInfo =
+							collaboratorsJson[creditJSON[1].id]
+
+						if (collaboratorInfo === undefined) {
+							return (
+								<tr key={creditJSON[0]} class="flex flex-col gap-4 w-auto pb-4 mb-4 border-b border-[#666] sm:border-0 md:m-0 md:table-row md:w-full">
+									<td class={tdClass + " text-red-600"}>
+										{creditJSON[1].id}
+									</td>
+									<td class={tdClass}>
+										{creditJSON[1].role}
+									</td>
+									<td class={tdClass}></td>
+								</tr>)
+						}
+
+
+						return (
+							<tr key={creditJSON[0]} class="flex flex-col gap-4 w-auto pb-4 mb-4 border-b border-[#666] sm:border-0 md:m-0 md:table-row md:w-full">
+								<td class={tdClass}>
+									{typeof collaboratorInfo.name === 'object' ? collaboratorInfo.name[locale] : collaboratorInfo.name}
+								</td>
+								<td class={`text-white/50 ${tdClass}`}>
+									{creditJSON[1].role}
+								</td>
+								<td class={tdClass}>
+									<div class="flex flex-wrap gap-4">
+										{collaboratorInfo.links &&
+											Object.entries(
+												collaboratorInfo.links
+											).sort((a, b) => {
+												if (a[0] < b[0]) { return -1 }
+												if (a[0] > b[0]) { return 1 }
+												return 0
+											}).map((link) => {
+												return (
+													<a
+														href={link[1]}
+														target="_blank"
+														key={link[0]}
+													>
+														<LinkIcon
+															class="min-w-6 w-auto fw-bold h-6 hover:text-[color:var(--release-color)] focus:text-[color:var(--release-color)] transition-all duration-300 ease-in-out"
+															linkObj={link[1]}
+														/>
+													</a>
+												)
+											})}
+									</div>
+								</td>
+							</tr>
+						)
+					})}
+				</tbody>
+			</table>
+		</section>
+	)
+}
