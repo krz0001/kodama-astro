@@ -6,8 +6,6 @@ import { getLocale } from "i18n:astro";
 import { toHTML } from "@portabletext/to-html";
 
 export default function ReleaseTrack({ locale, track, trackKey }) {
-  console.log("ReleaseTrack " + trackKey);
-
   const trackName =
     track.title.find((title) => title._key === locale) ||
     track.title.find((title) => title._key === "en");

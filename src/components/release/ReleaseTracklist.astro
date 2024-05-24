@@ -10,7 +10,6 @@ const { tracklist } = Astro.props;
 
   <div class="w-auto">
     {tracklist.map((track, index) => {
-      console.log('ReleaseTracklist '+ index);
       return <ReleaseTrack locale={locale} track={track} trackKey={index + 1} client:load />
     })}
   </div>
