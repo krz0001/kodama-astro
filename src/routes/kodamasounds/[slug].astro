@@ -15,6 +15,7 @@ import ReleaseCallToAction from "@components/release/ReleaseCallToAction.astro";
 import ReleaseTracklist from "@components/release/ReleaseTracklist.astro";
 
 import { getLocale } from "i18n:astro";
+import ReleaseCredits from "@src/components/release/ReleaseCredits.astro";
 
 export async function getStaticPaths() {
   const releases = await getReleases();
@@ -152,6 +153,7 @@ const releaseDescription = toHTML(
   )}
 
   <!-- credits table -->
+  {release.credits && <ReleaseCredits credits={release.credits} locale={getLocale()} />}
 
   <!-- footer credits -->
 

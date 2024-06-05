@@ -4,6 +4,18 @@ import { formatDate, urlForImage } from "@utils/index";
 import { t } from "i18n:astro";
 
 const { album } = Astro.props;
+
+// parse the album.links array and assign the values to the corresponding variables
+if (album.links) {
+  album.bandcamp = album.links.find((link) => link.includes("bandcamp"));
+  album.booth = album.links.find((link) => link.includes("booth"));
+  album.appleMusic = album.links.find((link) => link.includes("apple"));
+  album.deezer = album.links.find((link) => link.includes("deezer"));
+  album.spotify = album.links.find((link) => link.includes("spotify"));
+  album.youtubeMusic = album.links.find((link) => link.includes("music.youtube"));
+  album.vgmdb = album.links.find((link) => link.includes("vgmdb"));
+  album.thbwiki = album.links.find((link) => link.includes("thwiki"));
+}
 ---
 
 <div

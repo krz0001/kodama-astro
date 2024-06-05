@@ -64,6 +64,12 @@ export function getWebsiteIcon(url) {
       return "booth";
     case url.includes("deezer.com"):
       return "deezer";
+    case url.includes("twitter.com"):
+      return "x";
+    case url.includes("x.com"):
+      return "x";
+    default:
+      return "link";
   }
 }
 

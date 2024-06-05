@@ -17,7 +17,17 @@ export async function getReleases() {
     return await client.fetch(groq `*[_type == "release" && defined(slug.current)] | order(_createdAt desc)`);
 }
 export async function getRelease(slug) {
-    return await client.fetch(groq `*[_type == "release" && slug.current == $slug][0]`, {
+    return await client.fetch(groq `*[_type == "release" && slug.current == $slug][0]{
+        ...,
+        collaborators[]->{
+            ...
+        }
+    }`, {
         slug,
+    });
+}
+export async function getRef(ref) {
+    return await client.fetch(groq `*[_id == $ref][0]`, {
+        ref,
     });
 }
