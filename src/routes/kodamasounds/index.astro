@@ -6,11 +6,18 @@ import { getRelease, getReleases } from "@utils/sanity";
 import { urlForImage } from "@utils/index";
 import SoundListing from '@src/components/SoundListing.astro';
 const releases = await getReleases();
+
+console.log(releases);
+// order releases by date from oldest to newest
+releases.sort((a, b) => {
+  return new Date(a.releaseDate) - new Date(b.releaseDate);
+});
+
 ---
 <Layout title="Releases">
 
   <ul
-    class="grid grid-cols-1 md:grid-cols-2 gap-4 p-4"
+    class="grid grid-cols-1 xl:grid-cols-2 gap-4 p-4"
   >
     {
       releases.map((release) => (

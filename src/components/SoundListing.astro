@@ -37,7 +37,7 @@ if (album.links) {
   <div class="flex flex-col flex-initial py-5 px-10">
     <div>
       <span class="font-mono text-sm">
-        {album.id}
+        {album.catalogNumber} —
         {album.releaseDate && formatDate(album.releaseDate)}
       </span>
       <h2 class="text-2xl font-semibold">{album.title || album.slug.current}</h2>
