@@ -26,7 +26,7 @@ if (album.links) {
     style={{ backgroundColor: album.coverColor }}
   >
     <img
-      src={album.cover ? urlForImage(album.cover).url() : 'https://via.placeholder.com/208'}
+      src={album.cover ? urlForImage(album.cover).url() : 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='}
       alt={album.name}
       sizes="13rem"
       width={208}
@@ -37,7 +37,7 @@ if (album.links) {
   <div class="flex flex-col flex-initial py-5 px-10">
     <div>
       <span class="font-mono text-sm">
-        {album.catalogNumber} —
+        {album.catalogNumber || "KSDL-UNKW"}  —
         {album.releaseDate && formatDate(album.releaseDate)}
       </span>
       <h2 class="text-2xl font-semibold">{album.title || album.slug.current}</h2>

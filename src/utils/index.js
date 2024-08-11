@@ -69,7 +69,7 @@ export function getWebsiteIcon(url) {
     case url.includes("x.com"):
       return "x";
     default:
-      return "link";
+      return "globe";
   }
 }
 

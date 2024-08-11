@@ -161,6 +161,16 @@ if (typeof release.description !== "undefined") {
   {release.credits && <ReleaseCredits credits={release.credits} locale={getLocale()} />}
 
   <!-- footer credits -->
+  <footer class='container mx-auto mt-16 mb-8 px-2 flex flex-wrap text-[#999] text-sm justify-between align-middle items-end'>
+    <div>
+      <a href={"/" + slug}>{release.title}</a>
+      <br/>
+      <span>©2021–{new Date().getFullYear()} </span><a href="/"> KodamaSounds</a>
+      {release.footerCredits && <p class="mt-4 max-w-xl text-xs">{release.footerCredits}</p>}
+    </div>
+    
+    <span>Design inspired by <a href="https://sanographix.github.io/tokusetsu3/">SANOGRAPHIX.NET</a></span>
+  </footer>
 
   <details class="container mx-auto mt-16">
     <summary>Debug</summary>

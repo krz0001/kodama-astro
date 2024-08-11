@@ -7,7 +7,6 @@ import { urlForImage } from "@utils/index";
 import SoundListing from '@src/components/SoundListing.astro';
 const releases = await getReleases();
 
-console.log(releases);
 // order releases by date from oldest to newest
 releases.sort((a, b) => {
   return new Date(a.releaseDate) - new Date(b.releaseDate);
