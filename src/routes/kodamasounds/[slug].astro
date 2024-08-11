@@ -33,12 +33,17 @@ const releaseColorStyle = `:root {
 }`;
 
 // get the release.description where "_key" is the current locale, or default to English
-const releaseDescription = toHTML(
-  (
-    release.description.find((desc) => desc._key === getLocale()) ||
-    release.description.find((desc) => desc._key === "en")
-  ).value
-);
+let releaseDescription = "";
+if (typeof release.description !== "undefined") {
+  releaseDescription = toHTML(
+    (
+      release.description.find((desc) => desc._key === getLocale()) ||
+      release.description.find((desc) => desc._key === "en")
+    ).value
+  ) || "";
+} else {
+  releaseDescription = "";
+}
 ---
 
 <style set:html={releaseColorStyle}></style>
