@@ -4,7 +4,7 @@ import Layout from "@src/layouts/Layout.astro";
 import { Debug } from "astro:components";
 import { Icon } from "astro-icon/components";
 import { getStaff, getRef } from "@utils/sanity";
-import { urlForImage, getWebsiteIcon } from "@utils/index";
+import { urlForImage, getWebsiteIcon, formatBirthDate } from "@utils/index";
 import { toHTML } from "@portabletext/to-html";
 
 let staff = await getStaff();
@@ -48,7 +48,7 @@ const { locale } = Astro.props;
               <ul class="flex flex-col gap-1 mb-2">
                 <li>Real name: {member.realName || "N/A"}</li>
                 <li>Pronouns: {member.pronouns || "N/A"}</li>
-                <li>Date of birth: {member.dateOfBirth || "N/A"}</li>
+                <li>Date of birth: {member.dateOfBirth ? formatBirthDate(member.dateOfBirth) : "N/A"}</li>
                 <li>Place of birth: {member.placeOfBirth || "N/A"}</li>
               </ul>
               {getRef(member.collaborator._ref).then((collaborator) => (

@@ -15,6 +15,21 @@ export function formatDate(date) {
   });
 }
 
+export function formatBirthDate(date) {
+  const options = { month: 'long', day: 'numeric' };
+  const formattedDate = new Date(date).toLocaleDateString("en-US", options);
+  const day = formattedDate.split(' ')[1];
+  let suffix = 'th';
+  if (day === '1' || day === '21' || day === '31') {
+      suffix = 'st';
+  } else if (day === '2' || day === '22') {
+      suffix = 'nd';
+  } else if (day === '3' || day === '23') {
+      suffix = 'rd';
+  }
+  return formattedDate + suffix;
+}
+
 export function getWebsiteName(url) {
   // Check if the URL includes a specific string to determine the music related website
   switch (true) {
