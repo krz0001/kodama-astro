@@ -1,0 +1,107 @@
+---
+import Layout from "@src/layouts/Layout.astro";
+
+import { Debug } from "astro:components";
+import { Icon } from "astro-icon/components";
+import { getStaff, getRef } from "@utils/sanity";
+import { urlForImage, getWebsiteIcon } from "@utils/index";
+import { toHTML } from "@portabletext/to-html";
+
+let staff = await getStaff();
+// order staff by addition date (oldest first)
+staff.sort((a, b) => new Date(a.joinDate) - new Date(b.joinDate));
+// filterout staff that are not active and put them in a separate array
+const inactiveStaff = staff.filter((member) => member.hasLeft).sort((a, b) => new Date(b.joinDate) - new Date(a.joinDate));
+staff = staff.filter((member) => !member.hasLeft);
+
+const { locale } = Astro.props;
+---
+
+<Layout title="Staff">
+  <div class="container pt-10 px-6 mx-auto max-w-5xl">
+    <div class="prose dark:prose-invert">
+      <h2>Staff</h2>
+    </div>
+    <div class="mx-auto mt-10">
+      {
+        staff.map((member) => (
+          <div class="flex flex-col md:grid md:grid-cols-[200px,1fr] gap-4 mb-10">
+            <div>
+              <img
+                src={member.photo ? urlForImage(member.photo) : ""}
+                alt={member.name}
+                class="w-full rounded-lg"
+                width="150"
+                height="150"
+              />
+            </div>
+            <div>
+              <h3 class="text-xl font-bold mb-2">{member.name}</h3>
+              <p class="mb-2 font-bold">
+                {
+                  (
+                    member.role.find((role) => role._key === locale) ||
+                    member.role.find((role) => role._key === "en")
+                  ).value
+                }
+              </p>
+              <ul class="flex flex-col gap-1 mb-2">
+                <li>Real name: {member.realName || "N/A"}</li>
+                <li>Pronouns: {member.pronouns || "N/A"}</li>
+                <li>Date of birth: {member.dateOfBirth || "N/A"}</li>
+                <li>Place of birth: {member.placeOfBirth || "N/A"}</li>
+              </ul>
+              {getRef(member.collaborator._ref).then((collaborator) => (
+                <div class="flex flex-wrap gap-4 mt-4">
+                  {collaborator.links &&
+                    Object.entries(collaborator.links).map(([key, value]) => (
+                      <a href={value} target="_blank">
+                        <Icon
+                          name={getWebsiteIcon(value)}
+                          class="min-w-6 w-auto fw-bold h-6"
+                        />
+                      </a>
+                    ))}
+                </div>
+              ))}
+            </div>
+            <div
+              class="col-span-2 mt-2 w-full"
+              set:html={toHTML(
+                (
+                  member.bio.find((bio) => bio._key === locale) ||
+                  member.bio.find((bio) => bio._key === "en")
+                ).value
+              )}
+            />
+          </div>
+          // debug the collaborator reference
+        ))
+      }
+
+      <div class="prose dark:prose-invert">
+        <h2>Former Staff</h2>
+        {
+          inactiveStaff.map((member) => (
+            <div>
+              {member.name +
+                " (" +
+                (
+                  member.role.find((role) => role._key === locale) ||
+                  member.role.find((role) => role._key === "en")
+                ).value +
+                ", " +
+                member.leaveText +
+                ")"}
+            </div>
+          ))
+        }
+      </div>
+
+      <details class="container mx-auto mt-16">
+        <summary>Debug</summary>
+        <Debug value={{ staff }} />
+      </details>
+    </div>
+  </div>
+</Layout>

@@ -26,6 +26,16 @@ export async function getRelease(slug) {
         slug,
     });
 }
+
+export async function getStaff() {
+    return await client.fetch(groq `*[_type == "staff"] | order(_createdAt desc)`);
+}
+export async function getStaffMember(slug) {
+    return await client.fetch(groq `*[_type == "staff" && slug.current == $slug][0]`, {
+        slug,
+    });
+}
+
 export async function getRef(ref) {
     return await client.fetch(groq `*[_id == $ref][0]`, {
         ref,

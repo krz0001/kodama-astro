@@ -9,6 +9,7 @@ export default defineType({
       name: 'name',
       title: 'Name',
       type: 'string',
+      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: 'slug',
@@ -18,6 +19,35 @@ export default defineType({
         source: 'name',
         maxLength: 96,
       },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'joinDate',
+      title: 'Join Date',
+      type: 'date',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'hasLeft',
+      title: 'Has Left',
+      type: 'boolean',
+    }),
+    defineField({
+      name: 'leaveText',
+      title: 'Leave Text',
+      type: 'string',
+
+    }),
+    defineField({
+      name: 'collaborator',
+      title: 'Collaborator',
+      type: 'reference',
+      to: [{ type: 'collaborator' }],
+    }),
+    defineField({
+      name: 'photo',
+      title: 'Photo',
+      type: 'image',
     }),
     defineField({
       name: 'role',
@@ -53,6 +83,16 @@ export default defineType({
   preview: {
     select: {
       title: 'name',
+      role: 'role',
+      media: 'photo',
+    },
+    prepare(selection) {
+      const { title, role, media } = selection;
+      return {
+        title: title,
+        subtitle: role[0].value,
+        media: media,
+      }
     },
   }
 })
