@@ -13,6 +13,15 @@ const client = createClient(
     }
 )
 
+export async function getPosts() {
+    return await client.fetch(groq `*[_type == "post" && defined(slug.current)] | order(_createdAt desc)`);
+}
+export async function getPost(slug) {
+    return await client.fetch(groq `*[_type == "post" && slug.current == $slug][0]`, {
+        slug,
+    });
+}
+
 export async function getReleases() {
     return await client.fetch(groq `*[_type == "release" && defined(slug.current)] | order(_createdAt desc)`);
 }

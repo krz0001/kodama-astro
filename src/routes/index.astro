@@ -1,7 +1,23 @@
 ---
 import Layout from '@src/layouts/Layout.astro';
+import { getPosts, getRef } from '@utils/sanity';
+import { formatDate } from '@utils/index';
 
+let posts = await getPosts();
 ---
 <Layout title="KodamaSoft/Sounds">
-	<p class="max-w-5xl mx-auto mt-10">Welcome to KodamaSoft / KodamaSounds, home of a France based doujin circle founded around 2017 by Fivda! We are actively working on original / arrange albums of all kinds under KodamaSounds, and progressively building video games, tools and events relating to game development under KodamaSoft. We hope you enjoy your stay, and why not try to join our strong united community of artists on Discord to contribute yourself?!</p>
+	<div class="max-w-5xl mx-auto mt-10 prose dark:prose-invert">
+		Welcome to KodamaSoft / KodamaSounds, home of a France based doujin circle founded around 2017 by Fivda! We are actively working on original / arrange albums of all kinds under KodamaSounds, and progressively building video games, tools and events relating to game development under KodamaSoft. We hope you enjoy your stay, and why not try to join our strong united community of artists on Discord to contribute yourself?!
+		<h2 class="mt-10">Latest Posts</h2>
+		
+		<div class="grid md:grid-cols-2 gap-4 not-prose">
+			{posts.map((post) => (
+				<a href={"/posts/"+post.slug.current} class="block bg-violet-900/20 hover:bg-violet-900/70 transition p-4  rounded-md no-underline">
+					<h2 class="mt-0 font-bold text-lg md:prose-xl lg:prose-2xl">{post.title}</h2>
+					<p>{formatDate(post.publishedAt)}</p>
+				</a>
+			))}
+		</div>
+	</div>
+
 </Layout>

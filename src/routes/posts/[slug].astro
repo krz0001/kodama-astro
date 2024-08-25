@@ -1,0 +1,26 @@
+---
+import Layout from "@src/layouts/Layout.astro";
+import { getPost } from "@utils/sanity";
+import { formatDate } from "@utils/index";
+import { toHTML } from "@portabletext/to-html";
+
+const { slug } = Astro.params;
+let post = await getPost(slug);
+---
+
+<Layout title={post.title}>
+  <div class="container pt-10 px-6 mx-auto">
+    <div
+      class="max-w-prose text-black dark:text-white mx-auto border-b pb-4 mb-4 border-slate-500/20 sm:text-center"
+    >
+      <h1 class="text-4xl font-extrabold mb-3">{post.title}</h1>
+      <div class="text-slate-400">
+        {formatDate(post.publishedAt)}
+      </div>
+    </div>
+
+    <div class="max-w-prose mx-auto mt-10 prose dark:prose-invert">
+      <div set:html={toHTML(post.body)} />
+    </div>
+  </div>
+</Layout>
