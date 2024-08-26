@@ -3,9 +3,15 @@ import Layout from "@src/layouts/Layout.astro";
 import { getPost } from "@utils/sanity";
 import { formatDate } from "@utils/index";
 import { toHTML } from "@portabletext/to-html";
+import { getLocale } from "i18n:astro";
+import { Debug } from "astro:components";
 
 const { slug } = Astro.params;
 let post = await getPost(slug);
+const locale = getLocale();
+const body =
+    post.body.find((body) => body._key === locale) ||
+    post.body.find((body) => body._key === "en");
 ---
 
 <Layout title={post.title}>
@@ -20,7 +26,7 @@ let post = await getPost(slug);
     </div>
 
     <div class="max-w-prose mx-auto mt-10 prose dark:prose-invert">
-      <div set:html={toHTML(post.body)} />
+      <div set:html={toHTML(body.value)} />
     </div>
   </div>
 </Layout>
