@@ -1,0 +1,31 @@
+---
+import { switchLocalePath, getLocale } from "i18n:astro"
+
+const locale = getLocale()
+
+// const enPath = switchLocalePath("en")
+// const jpPath = switchLocalePath("jp")
+
+
+/* get the current path 
+- if it starts with /jp, then the current locale is jp -> remove /jp from the path for the enPath
+- if it doesn't start with /jp, then the current locale is en -> add /jp to the path for the jpPath
+*/
+
+const currentPath = Astro.url.pathname
+const enPath = currentPath.startsWith("/jp") ? currentPath.replace("/jp", "") : currentPath
+const jpPath = currentPath.startsWith("/jp") ? currentPath : `/jp${currentPath}`
+
+const { class: className } = Astro.props;
+---
+<div class={className}>
+    <div class="flex flex-row flex-wrap justify-center gap-4">
+        <span class={locale === 'en' ? 'font-bold' : ''}>
+            <a href={enPath}>EN</a>
+        </span>
+        <span class={locale === 'jp' ? 'font-bold' : ''}>
+            <a href={jpPath}>JP</a>
+        </span>
+    </div>
+</div>
+

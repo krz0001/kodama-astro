@@ -1,8 +1,10 @@
 ---
 import KodamaMusic from '@assets/img/kodamamusic.png';
-const { class } = Astro.props;
+import LocaleSwitcher from '../LocaleSwitcher.astro';
+const { class: className } = Astro.props;
+
 ---
-<div class="{{ class }}">
+<div class={className}>
     <header class="container mx-auto px-4">
         <div class="flex justify-between items-center">
             <a href="/">
@@ -15,8 +17,7 @@ const { class } = Astro.props;
                 />
             </a>
             <div class="flex items-center bg-neutral-700/50 rounded-lg p-2">
-                :)
-                <!-- <LocaleSwitcher /> -->
+                <LocaleSwitcher />
             </div>
         </div>
     </header>
