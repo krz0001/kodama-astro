@@ -103,4 +103,26 @@ export function isWebsiteStore(url) {
   }
 }
 
+export function isStreaming(url) {
+  switch (true) {
+    case url.includes("music.youtube.com"):
+    case url.includes("spotify.com"):
+    case url.includes("apple.com"):
+    case url.includes("deezer.com"):
+    case url.includes("soundcloud.com"):
+      return true;
+    default:
+      return false;
+  }
+}
+
+export function isPurchase(url) {
+  switch (true) {
+    case url.includes("bandcamp.com"):
+    case url.includes("booth.pm"):
+      return true;
+    default:
+      return false;
+  }
+}
 
