@@ -10,8 +10,8 @@ const { slug } = Astro.params;
 let post = await getPost(slug);
 const locale = getLocale();
 const body =
-    post.body.find((body) => body._key === locale) ||
-    post.body.find((body) => body._key === "en");
+  post.body.find((body) => body._key === locale) ||
+  post.body.find((body) => body._key === "en");
 ---
 
 <Layout title={post.title}>
@@ -26,7 +26,42 @@ const body =
     </div>
 
     <div class="max-w-prose mx-auto mt-10 prose dark:prose-invert">
-      <div set:html={toHTML(body.value)} />
+      <div
+        set:html={toHTML(body.value, {
+          components: {
+            types: {
+              calloutButton: ({ value }) => {
+                // get the URL and the type of content
+                let url = "/projects/rules";
+                let content = value.content;
+                if (content === "projectSubmission") {
+                  url = value.googleFormUrl;
+                }
+
+                // TODO: add icon, and localize the button string
+                let buttonString;
+                switch (value.content) {
+                  case "projectSubmission":
+                    // envelope icon
+                    buttonString = "Please fill in the Google Forms";
+                    break;
+                  case "rules":
+                    // book icon
+                    buttonString = "You can check the rules & submission patterns common to all releases here.";
+                    break;
+                  default:
+                    // ifnformation icon
+                    buttonString = "Learn more";
+                }
+
+                return `<a href="${url}" class="kodama_btn kodama_btn--primary kodama_btn--lg mx-auto my-2 no-underline text-xl">${buttonString}</a>`;
+              }
+              },
+            },
+          },
+        )}
+      />
     </div>
   </div>
 </Layout>
+
