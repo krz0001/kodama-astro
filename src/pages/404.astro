@@ -3,39 +3,8 @@ import SCD510Programmer from '@assets/img/SCD510Programmer.png';
 import { Image } from 'astro:assets';
 ---
 
-
-<Image src={SCD510Programmer} alt="SCD510Programmer" />
-<h1>Error 404.</h1>
-<p>Page not found. <a href="/">Go back to the main page?</a></p>
-
-<style>
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Times New Roman', Times, serif;
-    background-color: black;
-    color: white;
-}
-
-h1 {
-    font-size: 3em;
-    text-align: center;
-    text-transform: uppercase;
-}
-
-img {
-    outline: 4px solid white;
-    outline-offset: 5px;
-    margin-bottom: 20px;
-}
-
-a {
-    color: white;
-    text-decoration: underline;
-}
-</style>
+<div class="flex flex-col items-center justify-center min-h-screen bg-black text-white font-serif">
+    <Image src={SCD510Programmer} alt="SCD510Programmer" />
+    <h1 class="text-4xl font-bold mt-4">Error 404.</h1>
+    <p class="text-lg">Page not found. <a href="/" class="underline">Go back to the main page?</a></p>
+</div>

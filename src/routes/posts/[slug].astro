@@ -4,6 +4,7 @@ import { getPost } from "@utils/sanity";
 import { formatDate } from "@utils/index";
 import { toHTML } from "@portabletext/to-html";
 import { getLocale } from "i18n:astro";
+import { Icon } from "astro-icon/components";
 import { Debug } from "astro:components";
 
 const { slug } = Astro.params;
@@ -12,9 +13,20 @@ const locale = getLocale();
 const body =
   post.body.find((body) => body._key === locale) ||
   post.body.find((body) => body._key === "en");
----
 
+const declaredIcons = [
+  "envelope",
+  "book",
+ "info"
+];
+---
 <Layout title={post.title}>
+  <div class="hidden">
+    {declaredIcons.map((icon) => (
+      <Icon name={icon} />
+    ))}
+  </div>
+
   <div class="container pt-10 px-6 mx-auto">
     <div
       class="max-w-prose text-black dark:text-white mx-auto border-b pb-4 mb-4 border-slate-500/20 sm:text-center"
@@ -24,8 +36,7 @@ const body =
         {formatDate(post.publishedAt)}
       </div>
     </div>
-
-    <div class="max-w-prose mx-auto mt-10 prose dark:prose-invert">
+    <div class="max-w-4xl mx-auto mt-10 prose dark:prose-invert">
       <div
         set:html={toHTML(body.value, {
           components: {
@@ -39,22 +50,31 @@ const body =
                 }
 
                 // TODO: add icon, and localize the button string
-                let buttonString;
+                let buttonString, iconName;
                 switch (value.content) {
                   case "projectSubmission":
                     // envelope icon
+                    iconName = "envelope";
                     buttonString = "Please fill in the Google Forms";
                     break;
                   case "rules":
                     // book icon
+                    iconName = "book";
                     buttonString = "You can check the rules & submission patterns common to all releases here.";
                     break;
                   default:
                     // ifnformation icon
+                    iconName = "info";
                     buttonString = "Learn more";
                 }
 
-                return `<a href="${url}" class="kodama_btn kodama_btn--primary kodama_btn--lg mx-auto my-2 no-underline text-xl">${buttonString}</a>`;
+                // yeah uhhh just reference the icon svg in the string yeah bro
+                return `<a href="${url}" class="kodama_btn kodama_btn--primary kodama_btn--lg mx-auto my-2 no-underline text-xl">
+                  <svg width="1em" height="1em" viewBox="0 0 512 512" data-icon="${iconName}">
+                    <use xlink:href="#ai:local:${iconName}" />
+                  </svg>
+                  ${buttonString}
+                </a>`;
               }
               },
             },
