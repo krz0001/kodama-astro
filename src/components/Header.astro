@@ -21,5 +21,14 @@ const links = [
             <a href={href} class="text-gray-300 hover:bg-purple-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-2 border-transparent focus-visible:border-purple-600 focus-visible:outline-none transition">{text}</a>
         ))}
         <LocaleSwitcher class="w-fit m-0 text-gray-300 bg-gray-900/50 hover:bg-purple-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-2 border-transparent focus-visible:border-purple-600 focus-visible:outline-none transition" />
+        <!-- if sessionstorage presence_session_id exists, show admin link -->
+        <a href="/admin" class="text-gray-300 hover:bg-orange-700/50 hover:text-white px-3 py-2 rounded-md text-sm font-medium border-2 border-transparent focus-visible:border-orange-600 focus-visible:outline-none transition hidden" data-admin-link>Admin</a>
     </nav>
 </div>
+
+<script>
+    // if localStorage element starting with __studio_auth_token_ exists, show admin link
+    if (localStorage.getItem(Object.keys(localStorage).find(key => key.startsWith('__studio_auth_token_')))) {
+        document.querySelector('[data-admin-link]').classList.remove('hidden');
+    }
+</script>

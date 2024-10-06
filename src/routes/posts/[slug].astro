@@ -1,11 +1,11 @@
 ---
 import Layout from "@src/layouts/Layout.astro";
-import { getPost } from "@utils/sanity";
+import { getPost, toCalloutButton } from "@utils/sanity";
 import { formatDate } from "@utils/index";
-import { toHTML } from "@portabletext/to-html";
 import { getLocale } from "i18n:astro";
 import { Icon } from "astro-icon/components";
 import { Debug } from "astro:components";
+import { toHTML } from "@portabletext/to-html";
 
 const { slug } = Astro.params;
 let post = await getPost(slug);
@@ -17,7 +17,7 @@ const body =
 const declaredIcons = [
   "envelope",
   "book",
- "info"
+  "info"
 ];
 ---
 <Layout title={post.title}>
@@ -41,45 +41,10 @@ const declaredIcons = [
         set:html={toHTML(body.value, {
           components: {
             types: {
-              calloutButton: ({ value }) => {
-                // get the URL and the type of content
-                let url = "/projects/rules";
-                let content = value.content;
-                if (content === "projectSubmission") {
-                  url = value.googleFormUrl;
-                }
-
-                // TODO: add icon, and localize the button string
-                let buttonString, iconName;
-                switch (value.content) {
-                  case "projectSubmission":
-                    // envelope icon
-                    iconName = "envelope";
-                    buttonString = "Please fill in the Google Forms";
-                    break;
-                  case "rules":
-                    // book icon
-                    iconName = "book";
-                    buttonString = "You can check the rules & submission patterns common to all releases here.";
-                    break;
-                  default:
-                    // ifnformation icon
-                    iconName = "info";
-                    buttonString = "Learn more";
-                }
-
-                // yeah uhhh just reference the icon svg in the string yeah bro
-                return `<a href="${url}" class="kodama_btn kodama_btn--primary kodama_btn--lg mx-auto my-2 no-underline text-xl">
-                  <svg width="1em" height="1em" viewBox="0 0 512 512" data-icon="${iconName}">
-                    <use xlink:href="#ai:local:${iconName}" />
-                  </svg>
-                  ${buttonString}
-                </a>`;
-              }
-              },
+              calloutButton: ({ value }) => toCalloutButton(value),
             },
           },
-        )}
+        })}
       />
     </div>
   </div>
