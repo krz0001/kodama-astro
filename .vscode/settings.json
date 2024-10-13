@@ -1,5 +1,7 @@
 {
     "i18n-ally.localesPaths": [
         "src/locales"
-    ]
+    ],
+    "typescript.validate.enable": false,
+    "javascript.validate.enable": false
 }

@@ -158,11 +158,31 @@ export default defineType({
     }),
 
     defineField({
-      name: "background",
-      title: "Background",
+      name: "backgroundImage",
+      title: "Background Image",
       type: "image",
       options: {
         hotspot: true,
+      },
+      group: "metadata",
+    }),
+
+    defineField({
+      name: "backgroundVideo",
+      title: "Background Video",
+      type: "file",
+      group: "metadata",
+    }),
+
+    defineField({
+      name: "backgroundColor",
+      title: "Background Color",
+      type: "string",
+      description:
+        'Color used to theme the page. Please use a hex value without the #. Example: "F5A623".',
+      validation: (Rule) => Rule.min(3).max(6),
+      options: {
+        maxLength: 7,
       },
       group: "metadata",
     }),
@@ -177,6 +197,21 @@ export default defineType({
         },
       ],
       group: "links",
+    }),
+
+
+    //#region Tracklist 
+    defineField({
+      name: "cds",
+      title: "CDs",
+      type: "array",
+      of: [
+        {
+          type: "reference",
+          to: [{ type: "cd" }],
+        },
+      ],
+      group: "tracklist",
     }),
 
     defineField({
@@ -203,25 +238,26 @@ export default defineType({
               name: "description",
               title: "Description",
             },
+            {
+              type: "reference",
+              to: [{ type: "cd" }],
+              name: "cd",
+              title: "CD",
+            },
           ],
           preview: {
             select: {
               title: "title",
               artist: "artist",
+              cdTitle: "cd.title",
             },
             prepare(selection) {
-              const { title, artist } = selection;
-              // generate a unique hue (an int from 0 to 360) based on the title
-              const color =
-                Math.abs(
-                  title[0].value
-                    .split("")
-                    .reduce((acc, char) => char.charCodeAt(0) + acc, 0)
-                ) % 360;
+              const { title, artist, cdTitle } = selection;
+              const color = Math.abs(title[0].value.split("").reduce((acc, char) => char.charCodeAt(0) + acc, 0)) % 360;
 
               return {
                 title: title[0].value,
-                subtitle: artist[0].value,
+                subtitle: `${artist[0].value} - ${cdTitle || 'No CD'}`,
                 media: (
                   <div
                     style={{

@@ -12,8 +12,6 @@ const collaboratorInfo = await getRef(credit.collaborator._ref);
 const description =
     credit.role.find((desc) => desc._key === locale) ||
     credit.role.find((desc) => desc._key === "en");
-
-    console.log(description);
 ---
 <tr class="flex flex-col gap-4 w-auto pb-4 mb-4 border-b border-[#666] sm:border-0 md:m-0 md:table-row md:w-full">
     <td class='md:border-b border-[#666] md:p-4 md:pl-8'>
@@ -33,7 +31,6 @@ const description =
                     return 0
                 }).map((link) => {
                     const icon = getWebsiteIcon(link[1]);
-                    console.log(icon);
                     return (
                         <a
                             href={link[1]}

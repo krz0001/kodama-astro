@@ -7,16 +7,19 @@
             "@components/*": ["src/components/*"],
             "@assets/*": ["src/assets/*"]
         },
+        "jsx": "react-jsx",
+        "jsxImportSource": "react",
+        "module": "ESNext",
         "moduleResolution": "node",
-        "esModuleInterop": true,
+        "target": "ESNext",
+        "checkJs": true,
         "allowSyntheticDefaultImports": true,
-        "strict": true,
+        "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
         "resolveJsonModule": true,
-        "isolatedModules": true,
-        "noEmit": true,
-        "jsx": "react-jsx"
+        "strict": false,
+        "isolatedModules": true
     },
     "include": ["src/**/*"],
-    "exclude": ["node_modules"]
+    "exclude": ["node_modules", "dist"]
 }

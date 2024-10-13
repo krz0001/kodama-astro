@@ -72,7 +72,6 @@ export async function getRef(ref) {
 
 //#region Portable Text Components
 export function toCalloutButton(value) {
-  console.log(value);
   // get the URL and the type of content
   let url = "/projects/rules";
   let content = value.content;
