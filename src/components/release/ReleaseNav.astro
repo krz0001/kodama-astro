@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import KodamaMusic from '@assets/img/kodamamusic.png';
 import LocaleSwitcher from '../LocaleSwitcher.astro';
 const { class: className } = Astro.props;
@@ -8,8 +9,8 @@ const { class: className } = Astro.props;
     <header class="container mx-auto px-4">
         <div class="flex justify-between items-center">
             <a href="/">
-                <img
-                    src={KodamaMusic.src}
+                <Image
+                    src={KodamaMusic}
                     style={{ objectFit: 'cover', objectPosition: 'center' }}
                     width={100}
                     height={100}
