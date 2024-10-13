@@ -38,7 +38,7 @@ export default function ReleaseTrack({ locale, track, trackKey }) {
         <Disclosure.Panel className="accordian-body bg-[#18191b] text-white shadow-inner-xl py-4 px-4 mb-4 ">
           <div className="container max-w-screen-sm mt-2 mx-auto">
             <div
-              className="prose prose-sm prose-release prose-inverse"
+              className="prose prose-sm prose-release prose-invert"
               dangerouslySetInnerHTML={{ __html: toHTML(description.value) }}
             ></div>
           </div>

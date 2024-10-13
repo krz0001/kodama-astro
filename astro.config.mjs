@@ -33,8 +33,8 @@ export default defineConfig({
       data: true
     }
   }), icon()],
-  redirects: {
-    "/admin/[...path]": "/admin"
-  },
-  adapter: netlify()
+  adapter: netlify(),
+  image: {
+    domains: ["cdn.sanity.io"]
+  }
 });

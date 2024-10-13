@@ -2,9 +2,10 @@
 import "@fontsource/noto-sans-jp/400.css";
 import "@fontsource/noto-sans-jp/900.css";
 
+import { Image } from "astro:assets";
 import { Debug } from "astro:components";
 import { getRelease, getReleases } from "@utils/sanity";
-import { urlForImage } from "@utils/index";
+import { urlForImage, urlForVideo } from "@utils/index";
 import { toHTML } from "@portabletext/to-html";
 
 import ReleaseLayout from "../../layouts/ReleaseLayout.astro";
@@ -30,6 +31,7 @@ const release = await getRelease(slug);
 // STUFF THAT NEEDS TO BE HTML'D
 const releaseColorStyle = `:root {
     --releaseColor: ${"#" + release.color};
+    ${release.backgroundColor ? `--releaseBackgroundColor: ${"#" + release.backgroundColor};` : "--releaseBackgroundColor: #232426;"}
 }`;
 
 // get the release.description where "_key" is the current locale, or default to English
@@ -44,21 +46,57 @@ if (typeof release.description !== "undefined") {
 } else {
   releaseDescription = "";
 }
+
+// has background image or video?
+console.log(release);
+const hasBackground = release.backgroundImage || release.backgroundVideo;
+const backgroundVideoUrl = release.backgroundVideo ? urlForVideo(release.backgroundVideo) : null;
+
 ---
 
 <style set:html={releaseColorStyle}></style>
 <ReleaseLayout releaseTitle={release.title}>
-  <div class={release.background ? "mx-auto" : "container mx-auto"}>
-    {
-      release.background ? (
+  <div class={hasBackground ? "mx-auto" : "container mx-auto"}>
+    { hasBackground ? (
         <div class="relative overflow-hidden">
-          <img
-            src={release.background}
-            alt="Background"
-            style={{ objectFit: "cover", filter: "blur(25px) brightness(0.5)" }}
-          />
+
+          {release.backgroundImage && (
+            <Image
+              src={urlForImage(release.backgroundImage).url()}
+              alt=""
+              style={{
+                zIndex: '2',
+                objectFit: "cover",
+                filter: "blur(20px) brightness(0.5)",
+                width: "100%",
+                height: "100%",
+                position: "absolute",
+                maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%)',
+									WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%)'
+              }}
+              width={1280}
+              height={720}
+            />
+          )}
+
+          {backgroundVideoUrl && (
+            <video
+              autoplay
+              loop
+              muted
+              playsinline
+              class="object-cover object-center w-full h-full z-[3] absolute"
+              style={{
+                maskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%)',
+                WebkitMaskImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 1) 90%, rgba(0, 0, 0, 0) 100%)'
+              }}
+            >
+              <source src={backgroundVideoUrl} type="video/mp4" />
+            </video>
+          )}
+
           <div class="md:container relative mx-auto z-10">
-            <ReleaseNav class="bg-[#232426] md:bg-transparent" />
+            <ReleaseNav class="bg-[var(--releaseBackgroundColor)] md:bg-transparent" />
             <div class="relative w-[800px] max-w-full mx-auto">
               <img
                 src={urlForImage(release.logo).url()}

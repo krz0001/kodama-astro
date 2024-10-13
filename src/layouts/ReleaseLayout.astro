@@ -16,7 +16,7 @@ const { releaseTitle } = Astro.props;
 		<meta name="generator" content={Astro.generator} />
 		<title>{releaseTitle}</title>
 	</head>
-	<body class="bg-[#232426] font-release text-white min-h-screen pb-1">
+	<body class="bg-[var(--releaseBackgroundColor)] font-release text-white min-h-screen pb-1">
 		<slot />
 	</body>
 </html>

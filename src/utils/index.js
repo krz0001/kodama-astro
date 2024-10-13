@@ -7,6 +7,17 @@ export function urlForImage(source) {
   return imageBuilder.image(source);
 }
 
+export function urlForVideo(source) {
+  if (source && source.asset && source.asset._ref) {
+    const assetRef = source.asset._ref;
+    const [, id, extension] = assetRef.split('-');
+    return `https://cdn.sanity.io/files/${sanityClient.config().projectId}/${sanityClient.config().dataset}/${id}.${extension}`;
+  } else {
+    console.error("Invalid video source", source);
+    return null;
+  }
+}
+
 export function formatDate(date) {
   return new Date(date).toLocaleDateString("en-US", {
     month: "long",
