@@ -1,16 +1,45 @@
 ---
 import ReleaseTrack from "./ReleaseTrack.jsx";
 import { getLocale } from "i18n:astro";
+import { getRef } from "@utils/sanity";
+import { Debug } from "astro:components";
+
 const locale = getLocale();
-const { tracklist } = Astro.props;
+const { tracklist, cds } = Astro.props;
+
+let groupedTracklist = null;
+
+if (cds) {
+  groupedTracklist = await Promise.all(cds.map(async (cd) => {
+    const cdInfo = await getRef(cd._ref);
+    const tracks = tracklist.filter((track) => track.cd._ref === cd._ref);
+    return { cd: cdInfo, tracks: tracks };
+  }));
+}
+
+const isMultiDisc = groupedTracklist && groupedTracklist.length > 1;
 ---
 
 <section class="mx-auto my-16">
-  <h2 class="text-2xl text-center uppercase mb-8 font-black">tracklist</h2>
-
-  <div class="w-auto">
-    {tracklist.map((track, index) => {
-      return <ReleaseTrack locale={locale} track={track} trackKey={index + 1} client:load />
-    })}
+  <h2 class="text-2xl text-center uppercase mb-8 font-black">
+    tracklist
+  </h2>
+  <div class={`w-auto ${isMultiDisc ? 'flex flex-wrap justify-center md:gap-8' : ''}`}>
+    {groupedTracklist ? (
+      groupedTracklist.map((cd, index) => (
+        <div class={`${isMultiDisc ? 'w-full md:w-[30%] mb-8 relative' : 'w-full'}`}>
+          <h3 class="text-lg text-center font-bold mb-4">{cd.cd.title}</h3>
+          {cd.tracks.map((track, trackIndex) => (
+            <ReleaseTrack locale={locale} track={track} trackKey={trackIndex + 1} client:load />
+          ))}
+        </div>
+      ))
+    ) : (
+      <div class="w-full">
+        {tracklist.map((track, index) => (
+          <ReleaseTrack locale={locale} track={track} trackKey={index + 1} client:load />
+        ))}
+      </div>
+    )}
   </div>
 </section>

@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { getWebsiteName, isWebsiteStore } from "@utils/index.js";
 import { urlForImage } from "@utils/index";
 import { t } from "i18n:astro";
@@ -16,25 +15,19 @@ const {
 } = Astro.props;
 
 // get url for cover image
-const coverUrl = urlForImage(cover).url() || "https://via.placeholder.com/300x300?text=No+Cover+Image";
+const coverUrl = cover ? urlForImage(cover).width(600).height(600).url() : "https://placehold.co/600x600?text=No+Image";
 ---
 
 <div class="container mx-auto my-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr,2fr] gap-4">
-  {
-    cover ? (
-      <Image
-        src={coverUrl}
-        class="rounded"
-        alt="Logo"
-        class="w-100 h-auto"
-        // width and height are set to 600px, why? because i told you so (maximum image size according to the design)
-        width="600"
-        height="600"
-      />
-    ) : (
-      <div class="w-100 h-100 aspect-square bg-[var(--releaseColor)]"></div>
-    )
-  }
+  <img
+    src={coverUrl}
+    class="rounded"
+    alt="Logo"
+    class="w-100 h-auto"
+    // width and height are set to 600px, why? because i told you so (maximum image size according to the design)
+    width="600"
+    height="600"
+  />
 
   <dl class="description" class="w-full md:w-1/2">
     <dt><span>{t("releases:title")}</span></dt>

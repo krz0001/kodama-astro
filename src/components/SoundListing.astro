@@ -1,5 +1,4 @@
 ---
-import { Image } from "astro:assets";
 import { Icon } from "astro-icon/components";
 import { formatDate, urlForImage } from "@utils/index";
 import { t } from "i18n:astro";
@@ -26,8 +25,8 @@ if (album.links) {
     class="relative h-52 w-52 my-5 mx-auto md:m-5 md:mr-0 aspect-square rounded-md shadow-lg transition overflow-clip flex-none"
     style={{ backgroundColor: album.coverColor }}
   >
-    <Image
-      src={album.cover ? urlForImage(album.cover).url() : 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='}
+    <img
+      src={album.cover ? urlForImage(album.cover).width(208).url() : "https://placehold.co/208x208?text=No+Image"}
       alt={album.name || album.slug.current}
       sizes="13rem"
       width={208}

@@ -48,7 +48,6 @@ if (typeof release.description !== "undefined") {
 }
 
 // has background image or video?
-console.log(release);
 const hasBackground = release.backgroundImage || release.backgroundVideo;
 const backgroundVideoUrl = release.backgroundVideo ? urlForVideo(release.backgroundVideo) : null;
 
@@ -61,8 +60,8 @@ const backgroundVideoUrl = release.backgroundVideo ? urlForVideo(release.backgro
         <div class="relative overflow-hidden">
 
           {release.backgroundImage && (
-            <Image
-              src={urlForImage(release.backgroundImage).url()}
+            <img
+              src={urlForImage(release.backgroundImage).width(500).url()}
               alt=""
               style={{
                 zIndex: '2',
@@ -181,7 +180,7 @@ const backgroundVideoUrl = release.backgroundVideo ? urlForVideo(release.backgro
 
   {release.links && <ReleaseCallToAction links={release.links} />}
 
-  {release.tracklist && <ReleaseTracklist tracklist={release.tracklist} />}
+  {release.tracklist && <ReleaseTracklist tracklist={release.tracklist} cds={release.cds} />}
 
   <!-- YouTube -->
   {release.youtubeVideoId && (

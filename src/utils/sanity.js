@@ -63,6 +63,15 @@ export async function getStaffMember(slug) {
 }
 //#endregion
 
+//#region CDs
+export async function getCD(slug) {
+    return await client.fetch(groq `*[_type == "cd" && slug.current == $slug][0]`, {
+        slug,
+    });
+}
+//#endregion
+
+
 export async function getRef(ref) {
     return await client.fetch(groq `*[_id == $ref][0]`, {
         ref,
